@@ -1,15 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Lista de vehículos</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOM8z4j5z5z5z5z5z5z5z5z5z5z5z5z5z5z5z5" crossorigin="anonymous">
-</head>
-<body>
-    <h1>Lista de vehículos</h1>
+@extends('vehicles.template')
+
+@section('title')
+    Lista de vehículos
+@endsection
+
+@section('body')
+<h1>Lista de vehículos</h1>
+
+    <a href="{{ route('vehicles.create') }}" class="btn btn-primary mb-3">Nuevo Vehículo</a>
+
     <table class="table table-striped">
         <thead>
             <tr>
@@ -32,11 +31,18 @@
                     <td>{{ $vehicle->model }}</td>
                     <td>{{ $vehicle->year }}</td>
                     <td>{{ $vehicle->description }}</td>
-                    <td>Editar</td>
-                    <td>Eliminar</td>
+                    <td><a href="{{ route('vehicles.edit', $vehicle->id) }}" class="btn btn-warning">Editar</a></td>
+                    <td>
+                        <form action="{{ route('vehicles.destroy', $vehicle->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este vehículo?')">Eliminar</button>
+                        </form>
+                    </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
-</body>
-</html>
+@endsection
+
+
